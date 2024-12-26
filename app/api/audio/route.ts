@@ -1,6 +1,6 @@
 // app/api/audio/route.ts
-import { NextRequest, NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
+import { NextRequest, NextResponse } from 'next/server'
 import { STEPFUN_API_KEY, STEPFUN_API_URL } from '@/app/lib/constants'
 
 export async function POST(req: NextRequest) {
@@ -25,14 +25,14 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         // StepFun 需要 Bearer Token
-        'Authorization': `Bearer ${STEPFUN_API_KEY}`,
+        Authorization: `Bearer ${STEPFUN_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'step-tts-mini',
-        input,            // 文本
-        voice,            // 音色，如"cixingnansheng"
-        speed,            // 语速，0.50 ~ 2.00
-        volume,           // 音量，0.10 ~ 2.00
+        input, // 文本
+        voice, // 音色，如"cixingnansheng"
+        speed, // 语速，0.50 ~ 2.00
+        volume, // 音量，0.10 ~ 2.00
         response_format: mime_type, // 动态设置格式
       }),
     })
@@ -40,10 +40,7 @@ export async function POST(req: NextRequest) {
     // 如果返回非200(OK)，读取text看看错误内容
     if (!res.ok) {
       const errorText = await res.text()
-      return NextResponse.json(
-        { error: `StepFun TTS Error (${res.status}): ${errorText}` },
-        { status: res.status },
-      )
+      return NextResponse.json({ error: `StepFun TTS Error (${res.status}): ${errorText}` }, { status: res.status })
     }
 
     // 4. 用 arrayBuffer() 读取**二进制音频**

@@ -5,6 +5,7 @@
 **Owen's Cats TTS Web** is a StepFun text-to-speech (TTS) web application. It can run locally or be deployed with your StepFun Key in just one click.
 
 ### Key Features:
+
 - Supports selecting gender and voice character.
 - Adjustable speed and volume.
 - Audio output download supported.
@@ -29,7 +30,7 @@ This project is designed for users who want to fully experience the features of 
 
 ## One-Click Deployment on Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL=https://api.stepfun.com/v1&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
 
 ---
 
@@ -49,6 +50,7 @@ yarn start
 Development
 
 Before starting development, create a new .env.local file in the project root directory and input your StepFun API key and URL:
+
 ```bash
 # Stepfun API Key and URL
 STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
@@ -69,6 +71,7 @@ yarn dev
 Open http://localhost:3001 in your browser to view the results.
 
 ## Git Commit Guidelines
+
 - `feat` Add new business features.
 - `fix` Fix business issues/bugs.
 - `perf` Optimize performance.
@@ -79,4 +82,3 @@ Open http://localhost:3001 in your browser to view the results.
 - `docs` Documentation and comments related changes.
 - `chore` Miscellaneous tasks like updating dependencies or modifying build scripts.
 - `ci` Continuous integration-related changes.
-

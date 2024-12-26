@@ -32,7 +32,8 @@ export const STEPFUN_MAX_INPUT_LENGTH = 1000
 export const GITHUB_URL = 'https://github.com/owenshen0907/tts-stepfun-web'
 
 export const DEFAULT_TEXT = {
-  CN: '《将进酒》：李白 \n' +
+  CN:
+    '《将进酒》：李白 \n' +
     '君不见，黄河之水天上来，奔流到海不复回。\n' +
     '君不见，高堂明镜悲白发，朝如青丝暮成雪。\n' +
     '人生得意须尽欢，莫使金樽空对月。\n' +

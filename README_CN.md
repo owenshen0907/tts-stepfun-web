@@ -24,10 +24,9 @@ Owen`s Cats TTS Web 是一个 StepFun 文本转语音（TTS）网页应用。可
 - 访问 [用户中心-账户管理-接口密钥](https://platform.stepfun.com/interface-key)复制你的密钥
 - 注册成功后，默认赠送15元代金券
 
-
 ## 在 Vercel 上一键部署
 
-[![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL=https://api.stepfun.com/v1&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
+[![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
 
 ## 在本地一键部署
 

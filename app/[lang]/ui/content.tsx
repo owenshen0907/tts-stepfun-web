@@ -3,12 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { faCircleDown, faCirclePause, faCirclePlay } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Spinner } from '@nextui-org/spinner'
-import { Textarea } from '@nextui-org/input'
 import { Button } from '@nextui-org/button'
+import { Textarea } from '@nextui-org/input'
+import { Slider } from '@nextui-org/slider'
+import { Spinner } from '@nextui-org/spinner'
 import { Toaster, toast } from 'sonner'
-import { Slider, SliderValue } from '@nextui-org/slider'
-
 import { STEPFUN_VOICES, STEPFUN_MAX_INPUT_LENGTH, DEFAULT_TEXT, MIME_TYPES } from '@/app/lib/constants'
 import { base64AudioToBlobUrl, getFormatDate, saveAs } from '@/app/lib/tools'
 import { Tran } from '@/app/lib/types'
@@ -21,8 +20,8 @@ export default function Content({ t }: { t: Tran }) {
 
   // StepFun 需要的配置项
   const [voice, setVoice] = useState('cixingnansheng') // 默认选磁性男声
-  const [speed, setSpeed] = useState(1.00) // 0.50 ~ 2.00
-  const [volume, setVolume] = useState(1.00) // 0.10 ~ 2.00
+  const [speed, setSpeed] = useState(1.0) // 0.50 ~ 2.00
+  const [volume, setVolume] = useState(1.0) // 0.10 ~ 2.00
   const [mimeType, setMimeType] = useState<'wav' | 'mp3' | 'flac' | 'opus'>('mp3') // 默认 mp3
   const [gender, setGender] = useState<'male' | 'female'>('male') // 默认男声
 
@@ -181,16 +180,10 @@ export default function Content({ t }: { t: Tran }) {
         <div>
           <h3 className="font-bold mb-2">选择性别</h3>
           <div className="flex flex-wrap gap-2 pb-3">
-            <Button
-              color={gender === 'male' ? 'primary' : 'default'}
-              onClick={() => setGender('male')}
-            >
+            <Button color={gender === 'male' ? 'primary' : 'default'} onClick={() => setGender('male')}>
               男声
             </Button>
-            <Button
-              color={gender === 'female' ? 'primary' : 'default'}
-              onClick={() => setGender('female')}
-            >
+            <Button color={gender === 'female' ? 'primary' : 'default'} onClick={() => setGender('female')}>
               女声
             </Button>
           </div>
@@ -217,8 +210,8 @@ export default function Content({ t }: { t: Tran }) {
           <h3 className="font-bold mb-2">语速（0.50 ~ 2.00）</h3>
           <Slider
             step={0.01}
-            minValue={0.50}
-            maxValue={2.00}
+            minValue={0.5}
+            maxValue={2.0}
             value={speed}
             onChange={(val: number | number[]) => {
               if (typeof val === 'number') setSpeed(parseFloat(val.toFixed(2)))
@@ -233,8 +226,8 @@ export default function Content({ t }: { t: Tran }) {
           <h3 className="font-bold mb-2">音量（0.10 ~ 2.00）</h3>
           <Slider
             step={0.01}
-            minValue={0.10}
-            maxValue={2.00}
+            minValue={0.1}
+            maxValue={2.0}
             value={volume}
             onChange={(val: number | number[]) => {
               if (typeof val === 'number') setVolume(parseFloat(val.toFixed(2)))
