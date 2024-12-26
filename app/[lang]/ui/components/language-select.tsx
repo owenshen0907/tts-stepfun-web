@@ -1,3 +1,4 @@
+// app/[lang]/ui/components/language-select.tsx
 import { memo } from 'react'
 import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete'
 import { LanguageSelectProps } from '../../../lib/types'

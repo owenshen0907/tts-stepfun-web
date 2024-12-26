@@ -1,82 +1,82 @@
 # TTS Azure Web
 
-English / [简体中文](./README_CN.md)
+[简体中文](./README_CN.md) / English
 
-TTS Azure Web is an Azure Text-to-Speech (TTS) web application. Fine-tune the output speech results using Speech Synthesis Markup Language (SSML). It allows you to run it locally or deploy it with a single click using your Azure Key.
+**Owen's Cats TTS Web** is a StepFun text-to-speech (TTS) web application. It can run locally or be deployed with your StepFun Key in just one click.
 
-Key Features:
+### Key Features:
+- Supports selecting gender and voice character.
+- Adjustable speed and volume.
+- Audio output download supported.
+- One-click deployment locally or on the cloud.
 
-- Supports selection of voice, language, style, and character.
-- Supports adjustments of speech speed, intonation, and volume.
-- Supports audio output download.
-- One-click deployment for both local and cloud environments.
-- Supports SSML config import and export.
+This project is designed for users who want to fully experience the features of StepFun TTS with minimal setup efforts.
 
-This application is ideal for those looking to minimize setup while experiencing the full capabilities of Azure TTS.
+**Online Demo**: [https://tts.xjiojio.cn](https://tts.xjiojio.cn)
 
-Live demo: https://tts.femoon.top
+---
 
 ## Getting Started
 
-Get your API Key
+### Obtain Your API Key
 
-- Go to [Microsoft Azure Text to Speech](https://azure.microsoft.com/en-us/products/ai-services/text-to-speech/) and click "Try Text to Speech Free"
-- Go to [Azure AI services](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/SpeechServices)
-- In the "Speech services" block, click "Add"
-- A region and two subscription keys will be listed beside Speech Services. You only need one key and its corresponding region.
+1. You need a valid phone number.
+2. Visit [StepFun Official Website](https://platform.stepfun.com/) and register using your phone number.
+3. Go to [User Center - Account Management - API Key](https://platform.stepfun.com/interface-key) to copy your key.
+4. Upon successful registration, you will receive a default bonus of 15 CNY credits.
 
-## Deploy on Vercel
+---
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FFemoon%2Ftts-azure-web&env=SPEECH_KEY&env=SPEECH_REGION&project-name=tts-azure-web&repository-name=tts-azure-web)
+## One-Click Deployment on Vercel
 
-## Deploy locally
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL=https://api.stepfun.com/v1&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
+
+---
+
+## One-Click Local Deployment
 
 ```bash
-# install yarn
+# Install yarn
 npm i -g yarn
-# install dependencies
+# Install dependencies
 yarn
-# building the production environment
+# Build for production
 yarn build
-# run production environment serve
+# Run production server
 yarn start
 ```
 
-## Development
+Development
 
-Before starting development, you must create a new `.env.local` file at project root, and place your azure key and region into it:
-
+Before starting development, create a new .env.local file in the project root directory and input your StepFun API key and URL:
 ```bash
-# your azure key (required)
-SPEECH_KEY=your_azure_key
-# your azure region (required)
-SPEECH_REGION=your_azure_region
-# Maximum input length limit (optional)
-NEXT_PUBLIC_MAX_INPUT_LENGTH=4000
+# Stepfun API Key and URL
+STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
+STEPFUN_API_URL=https://api.stepfun.com/v1
 ```
 
-Run the development server:
+Run the development server locally:
 
 ```bash
-# install yarn
+# Install yarn
 npm i -g yarn
-# install dependencies
+# Install dependencies
 yarn
-# run serve
+# Run the development server
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000/) with your browser to see the result.
+Open http://localhost:3001 in your browser to view the results.
 
-## Git commit specification reference
+## Git Commit Guidelines
+- `feat` Add new business features.
+- `fix` Fix business issues/bugs.
+- `perf` Optimize performance.
+- `style` Code style changes that don’t affect the runtime result.
+- `refactor` Refactor the code.
+- `revert` Revert changes.
+- `test` Changes related to testing, no business logic changes.
+- `docs` Documentation and comments related changes.
+- `chore` Miscellaneous tasks like updating dependencies or modifying build scripts.
+- `ci` Continuous integration-related changes.
 
-- `feat` add new functions
-- `fix` Fix issues/bugs
-- `perf` Optimize performance
-- `style` Change the code style without affecting the running result
-- `refactor` Re-factor code
-- `revert` Undo changes
-- `test` Test related, does not involve changes to business code
-- `docs` Documentation and Annotation
-- `chore` Updating dependencies/modifying scaffolding configuration, etc.
-- `ci` CI/CD

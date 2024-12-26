@@ -1,3 +1,4 @@
+// app/[lang]/ui/nav.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Selection } from '@nextui-org/react'
@@ -49,7 +50,7 @@ export default function Nav({ t }: { t: Tran }) {
     <div className="w-full px-6 h-16 flex sticky top-0 items-center justify-between z-[100] border-b border-nav-light dark:border-nav-dark bg-nav-light dark:bg-nav-dark">
       <div className="flex items-center gap-3 cursor-pointer select-none" onClick={handleClickTitle}>
         <Image src={Logo} alt="" width={24} height={24} />
-        <p className="text-lg">Azure TTS Web</p>
+        <p className="text-lg">Owen`s Cats TTS Web</p>
       </div>
       <div className="flex items-center gap-1">
         <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">

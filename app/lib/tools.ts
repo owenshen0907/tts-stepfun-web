@@ -1,3 +1,4 @@
+// app/lib/tools.ts
 import { Config, GenderItem, ListItem } from './types'
 
 export function saveAs(blob: Blob, name: string) {
@@ -22,15 +23,14 @@ export function getGenders(data: ListItem[]): GenderItem[] {
   return genders
 }
 
-export function base64AudioToBlobUrl(base64Audio: string) {
-  const binaryString = atob(base64Audio)
-  const len = binaryString.length
-  const bytes = new Uint8Array(len)
-  for (let i = 0; i < len; i++) {
-    bytes[i] = binaryString.charCodeAt(i)
+export function base64AudioToBlobUrl(base64: string, mime_type: string): string {
+  const byteCharacters = atob(base64)
+  const byteNumbers = new Array(byteCharacters.length)
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i)
   }
-
-  const blob = new Blob([bytes], { type: 'audio/mp3' })
+  const byteArray = new Uint8Array(byteNumbers)
+  const blob = new Blob([byteArray], { type: mime_type })
   return URL.createObjectURL(blob)
 }
 

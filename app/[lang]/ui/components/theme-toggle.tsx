@@ -1,3 +1,4 @@
+// app/[lang]/ui/components/theme-toggle.tsx
 import useTheme from '@/app/lib/hooks/use-theme'
 import { Tran } from '@/app/lib/types'
 import '@/styles/theme-button.css'

@@ -1,3 +1,4 @@
+// app/[lang]/ui/components/config-slider.tsx
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slider, SliderValue } from '@nextui-org/slider'

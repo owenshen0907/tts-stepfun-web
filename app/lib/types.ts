@@ -1,3 +1,4 @@
+// app/lib/type.ts
 import { Key } from 'react'
 import { getLocale } from '@/app/lib/i18n/get-locale'
 

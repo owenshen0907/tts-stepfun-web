@@ -1,3 +1,4 @@
+// app/[lang]/layout.tsx
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Metadata } from 'next'
@@ -11,8 +12,8 @@ export async function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: 'Azure Text To Speech(TTS)',
-  description: 'Free Azure Text To Speech(TTS)',
+  title: 'StepFun Text To Speech(TTS)',
+  description: 'Free StepFun Text To Speech(TTS)',
 }
 
 export default function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: Locale } }) {

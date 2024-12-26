@@ -1,3 +1,4 @@
+// app/[lang]/overlay-scrollbar.tsx
 'use client'
 import { useEffect } from 'react'
 import { OverlayScrollbars } from 'overlayscrollbars'
