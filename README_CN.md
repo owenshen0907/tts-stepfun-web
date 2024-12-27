@@ -28,6 +28,25 @@ Owen`s Cats TTS Web 是一个 StepFun 文本转语音（TTS）网页应用。可
 
 [![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
 
+## 设置环境变量
+### 在项目根目录创建一个新的 `.env.local` 文件，并输入你的 stepfun 获取的apikey及API_URL：
+
+```bash
+# Stepfun API Key and URL
+STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
+STEPFUN_API_URL=https://api.stepfun.com/v1
+```
+
+## docker部署
+```bash
+#注意先配置环境变量
+#创建镜像
+docker build -t tts-stepfun-web .
+#创建容器
+docker run -d -p 3600:3600 --name tts-stepfun-web tts-stepfun-web
+#启动后访问地址：http://localhost:3600/
+```
+
 ## 在本地一键部署
 
 ```bash
@@ -38,20 +57,10 @@ yarn
 # 构建生产环境
 yarn build
 # 运行生产环境服务
-yarn start
+PORT=3600 yarn start
 ```
 
-## 开发
-
-在开始开发之前，必须在项目根目录创建一个新的 `.env.local` 文件，并输入你的 Azure Key 和对应的地区：
-
-```bash
-# Stepfun API Key and URL
-STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
-STEPFUN_API_URL=https://api.stepfun.com/v1
-```
-
-本地运行开发服务器：
+## 本地运行开发服务器：
 
 ```bash
 # 安装 yarn
@@ -59,10 +68,10 @@ npm i -g yarn
 # 安装依赖
 yarn
 # 运行服务器
-yarn dev
+yarn dev -3600
 ```
 
-使用浏览器打开 [http://localhost:3001](http://localhost:3001/) 查看结果。
+使用浏览器打开 [http://localhost:3001](http://localhost:3600/) 查看结果。
 
 ## Git 提交规范参考
 

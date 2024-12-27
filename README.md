@@ -33,6 +33,21 @@ This project is designed for users who want to fully experience the features of 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/owenshen0907/tts-stepfun-web&env=STEPFUN_API_KEY&env=STEPFUN_API_URL&project-name=tts-stepfun-web&repository-name=tts-stepfun-web)
 
 ---
+## Before starting development, create a new .env.local file in the project root directory and input your StepFun API key and URL:
+
+```bash
+# Stepfun API Key and URL
+STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
+STEPFUN_API_URL=https://api.stepfun.com/v1
+```
+
+## docker Deployment
+```bash
+##
+docker build -t tts-stepfun-web .
+docker run -d -p 3600:3600 --name tts-stepfun-web tts-stepfun-web
+```
+
 
 ## One-Click Local Deployment
 
@@ -44,18 +59,9 @@ yarn
 # Build for production
 yarn build
 # Run production server
-yarn start
+PORT=3600 yarn start
 ```
 
-Development
-
-Before starting development, create a new .env.local file in the project root directory and input your StepFun API key and URL:
-
-```bash
-# Stepfun API Key and URL
-STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
-STEPFUN_API_URL=https://api.stepfun.com/v1
-```
 
 Run the development server locally:
 
@@ -65,10 +71,10 @@ npm i -g yarn
 # Install dependencies
 yarn
 # Run the development server
-yarn dev
+yarn dev - 3600
 ```
 
-Open http://localhost:3001 in your browser to view the results.
+Open http://localhost:3600 in your browser to view the results.
 
 ## Git Commit Guidelines
 
