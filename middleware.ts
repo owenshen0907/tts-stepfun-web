@@ -41,6 +41,9 @@ export function middleware(request: NextRequest) {
     '/safari-pinned-tab.svg',
     '/browserconfig.xml',
   ]
+  if (pathname.startsWith('/audios')) {
+    return
+  }
   if (excludedPaths.includes(pathname)) return
 
   const pathnameIsMissingLocale = i18n.locales.every(

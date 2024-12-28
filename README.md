@@ -71,7 +71,7 @@ npm i -g yarn
 # Install dependencies
 yarn
 # Run the development server
-yarn dev - 3600
+PORT=3600 yarn dev
 ```
 
 Open http://localhost:3600 in your browser to view the results.

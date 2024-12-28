@@ -8,6 +8,7 @@ import { Textarea } from '@nextui-org/input'
 import { Slider } from '@nextui-org/slider'
 import { Spinner } from '@nextui-org/spinner'
 import { Toaster, toast } from 'sonner'
+import VoiceCard from '@/app/[lang]/ui/components/VoiceCard'
 import { STEPFUN_VOICES, STEPFUN_MAX_INPUT_LENGTH, DEFAULT_TEXT, MIME_TYPES } from '@/app/lib/constants'
 import { base64AudioToBlobUrl, getFormatDate, saveAs } from '@/app/lib/tools'
 import { Tran } from '@/app/lib/types'
@@ -194,13 +195,12 @@ export default function Content({ t }: { t: Tran }) {
           <h3 className="font-bold mb-2">选择音色</h3>
           <div className="flex flex-wrap gap-2 pb-3">
             {(gender === 'male' ? maleVoices : femaleVoices).map(item => (
-              <Button
+              <VoiceCard
                 key={item.value}
-                color={item.value === voice ? 'primary' : 'default'}
-                onClick={() => setVoice(item.value)}
-              >
-                {item.label}
-              </Button>
+                voiceItem={item}
+                selectedVoice={voice}
+                onSelect={(voiceValue: string) => setVoice(voiceValue)}
+              />
             ))}
           </div>
         </div>

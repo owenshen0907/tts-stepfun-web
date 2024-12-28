@@ -68,7 +68,7 @@ npm i -g yarn
 # 安装依赖
 yarn
 # 运行服务器
-yarn dev -3600
+PORT=3600 yarn dev
 ```
 
 使用浏览器打开 [http://localhost:3001](http://localhost:3600/) 查看结果。
