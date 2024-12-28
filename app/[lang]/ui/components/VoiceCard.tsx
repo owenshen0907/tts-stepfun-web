@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@nextui-org/button'
 
 type VoiceItem = {
@@ -18,37 +20,61 @@ interface VoiceCardProps {
 
 export default function VoiceCard({ voiceItem, selectedVoice, onSelect }: VoiceCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
   const previewAudioRef = useRef<HTMLAudioElement | null>(null)
 
-  // 播放预览
-  const handlePreview = () => {
+  // 用来存储定时器ID，防止多次悬停/移出导致冲突
+  const hideTimer = useRef<NodeJS.Timeout | null>(null)
+
+  // ======= 播放 / 暂停预览逻辑 =======
+  const handlePlay = () => {
     if (!voiceItem.previewUrl) return
 
-    // 如果已有音频在播，先暂停销毁
     if (previewAudioRef.current) {
       previewAudioRef.current.pause()
       previewAudioRef.current = null
     }
 
-    previewAudioRef.current = new Audio(voiceItem.previewUrl)
-    previewAudioRef.current.play().catch(err => {
-      console.error('预览播放失败:', err)
-    })
+    const audio = new Audio(voiceItem.previewUrl)
+    audio.onended = () => setIsPlaying(false)
+    audio
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch(err => console.error('预览播放失败:', err))
+
+    previewAudioRef.current = audio
   }
 
-  // 鼠标事件
+  const handlePause = () => {
+    if (previewAudioRef.current) {
+      previewAudioRef.current.pause()
+      previewAudioRef.current = null
+    }
+    setIsPlaying(false)
+  }
+
+  // ======= 悬浮显示、延迟隐藏 =======
   const handleMouseEnter = () => {
+    // 如果之前设置了定时器，先清除，避免“刚离开就又回来了”情况
+    if (hideTimer.current) {
+      clearTimeout(hideTimer.current)
+      hideTimer.current = null
+    }
     setIsHovered(true)
   }
+
   const handleMouseLeave = () => {
-    setIsHovered(false)
+    // 设置一个 200ms 定时器再隐藏
+    hideTimer.current = setTimeout(() => {
+      setIsHovered(false)
+      hideTimer.current = null
+      // 如果想离开就自动暂停播放，可以在这儿 handlePause()
+    }, 200)
   }
 
   return (
-    // 让这个 div 包含 按钮 + 预览图标
-    // 并在父级监听 onMouseEnter/Leave
-    <div className="relative inline-block pr-10" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {/* 点击按钮 => 选择音色 */}
+    <div className="relative inline-block" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {/* 音色按钮 */}
       <Button
         color={voiceItem.value === selectedVoice ? 'primary' : 'default'}
         onClick={() => onSelect(voiceItem.value)}
@@ -56,15 +82,59 @@ export default function VoiceCard({ voiceItem, selectedVoice, onSelect }: VoiceC
         {voiceItem.label}
       </Button>
 
-      {/* 悬浮时显示 播放图标 */}
+      {/* 小播放按钮：绝对定位在上方 */}
       {isHovered && (
-        <span
-          className="absolute right-0 top-1/2 -translate-y-1/2 cursor-pointer text-xl"
-          onClick={handlePreview}
-          title={`预览${voiceItem.label}`}
+        <div
+          className="
+            absolute
+            bottom-full
+            left-1/2
+            -translate-x-1/2
+            mb-2
+          "
         >
-          ▶️
-        </span>
+          {isPlaying ? (
+            <Button
+              isIconOnly
+              size="sm"
+              onPress={handlePause}
+              className="
+                rounded-full
+                bg-gradient-to-r
+                from-pink-400
+                to-pink-600
+                text-white
+                shadow-md
+                hover:shadow-lg
+                transition
+                duration-300
+                ease-in-out
+              "
+            >
+              <FontAwesomeIcon icon={faPause} />
+            </Button>
+          ) : (
+            <Button
+              isIconOnly
+              size="sm"
+              onPress={handlePlay}
+              className="
+                rounded-full
+                bg-gradient-to-r
+                from-pink-400
+                to-pink-600
+                text-white
+                shadow-md
+                hover:shadow-lg
+                transition
+                duration-300
+                ease-in-out
+              "
+            >
+              <FontAwesomeIcon icon={faPlay} />
+            </Button>
+          )}
+        </div>
       )}
     </div>
   )

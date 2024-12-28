@@ -37,7 +37,7 @@ export default function Content({ t }: { t: Tran }) {
     } else {
       setVoice(femaleVoices[0].value)
     }
-  }, [gender, maleVoices, femaleVoices])
+  }, [gender])
 
   // 点“播放”时调用后端 /api/audio
   const fetchAudio = async () => {
@@ -111,7 +111,7 @@ export default function Content({ t }: { t: Tran }) {
     }
     const response = await fetch(audioRef.current.src)
     const blob = await response.blob()
-    saveAs(blob, `StepFun-TTS-${getFormatDate(new Date())}.${mimeType}`)
+    saveAs(blob, `StepFun-TTS-${voice}${getFormatDate(new Date())}.${mimeType}`)
     toast.success('已下载')
   }
 
@@ -199,7 +199,11 @@ export default function Content({ t }: { t: Tran }) {
                 key={item.value}
                 voiceItem={item}
                 selectedVoice={voice}
-                onSelect={(voiceValue: string) => setVoice(voiceValue)}
+                onSelect={voiceValue => {
+                  console.log('Selecting voice:', voiceValue)
+                  setVoice(voiceValue)
+                }}
+                // onSelect={(voiceValue: string) => setVoice(voiceValue)}
               />
             ))}
           </div>
