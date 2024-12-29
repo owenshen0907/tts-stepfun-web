@@ -36,7 +36,7 @@ export const DEFAULT_TEXT = {
     '《将进酒》：李白； \n' +
     '君不见，黄河之水天上来，奔流到海不复回。\n' +
     '君不见，高堂明镜悲白发，朝如青丝暮成雪。\n',
-  EN: "Hmm, I'm not sure what to wear to the party tonight. I want to look nice, but I also want to be comfortable. Maybe I’ll wear my new dress and heels. Oh no, but what if my feet start hurting after a while? Maybe I should bring a pair of flats just in case.",
+  EN: "Hmm, I'm not sure",
 }
 
 export const LANGS = [
@@ -47,6 +47,10 @@ export const LANGS = [
   {
     label: 'English',
     value: 'en',
+  },
+  {
+    label: '日本語',
+    value: 'jp',
   },
 ]
 

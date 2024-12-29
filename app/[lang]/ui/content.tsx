@@ -14,7 +14,7 @@ import { base64AudioToBlobUrl, getFormatDate, saveAs } from '@/app/lib/tools'
 import { Tran } from '@/app/lib/types'
 
 export default function Content({ t }: { t: Tran }) {
-  const [input, setInput] = useState<string>(DEFAULT_TEXT.CN)
+  const [input, setInput] = useState<string>(t['DEFAULT_TEXT'])
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -26,10 +26,15 @@ export default function Content({ t }: { t: Tran }) {
   const [mimeType, setMimeType] = useState<'wav' | 'mp3' | 'flac' | 'opus'>('mp3') // 默认 mp3
   const [gender, setGender] = useState<'male' | 'female'>('male') // 默认男声
 
-  // 筛选男女声
-  const maleVoices = STEPFUN_VOICES.filter(voice => voice.gender === 'male')
-  const femaleVoices = STEPFUN_VOICES.filter(voice => voice.gender === 'female')
+  // 动态翻译音色
+  const translatedVoices = STEPFUN_VOICES.map(voice => ({
+    ...voice,
+    label: t['voices'][voice.gender][voice.value], // 根据翻译配置动态映射
+  }))
 
+  // 筛选男女声
+  const maleVoices = translatedVoices.filter(voice => voice.gender === 'male')
+  const femaleVoices = translatedVoices.filter(voice => voice.gender === 'female')
   // 切换性别时，重置音色
   useEffect(() => {
     if (gender === 'male') {
@@ -55,7 +60,7 @@ export default function Content({ t }: { t: Tran }) {
       }),
     })
     if (!res.ok) {
-      toast.error('Error fetching audio. Code: ' + res.status)
+      toast.error(`${t['fetch-audio-error']} Code: ` + res.status)
       return null
     }
     return res.json() // 后端返回: { base64Audio, traceid, mime_type }
@@ -63,7 +68,7 @@ export default function Content({ t }: { t: Tran }) {
 
   const play = async () => {
     if (!input.trim()) {
-      toast.error('请输入文本')
+      toast.error(t['input-text'])
       return
     }
     if (isLoading) return
@@ -72,7 +77,7 @@ export default function Content({ t }: { t: Tran }) {
     try {
       const data = await fetchAudio()
       if (!data || !data.base64Audio) {
-        toast.error('后端没有返回 base64Audio')
+        toast.error(t['no-audio-returned'])
         return
       }
 
@@ -90,7 +95,7 @@ export default function Content({ t }: { t: Tran }) {
       audioRef.current.play()
     } catch (err) {
       console.error('Error fetching audio:', err)
-      toast.error('请求失败')
+      toast.error(t['request-failed'])
     } finally {
       setLoading(false)
     }
@@ -106,13 +111,13 @@ export default function Content({ t }: { t: Tran }) {
 
   const handleDownload = async () => {
     if (!audioRef.current || !audioRef.current.src) {
-      toast.warning('请先播放，才可下载')
+      toast.warning(t['download-fail'])
       return
     }
     const response = await fetch(audioRef.current.src)
     const blob = await response.blob()
-    saveAs(blob, `StepFun-TTS-${voice}${getFormatDate(new Date())}.${mimeType}`)
-    toast.success('已下载')
+    saveAs(blob, `${t['file-name-prefix']}-${voice}${getFormatDate(new Date())}.${mimeType}`)
+    toast.success(t['download-success'])
   }
 
   return (
@@ -124,7 +129,7 @@ export default function Content({ t }: { t: Tran }) {
         <Textarea
           size="lg"
           disableAutosize
-          placeholder="请输入文本..."
+          placeholder={t['input-text']}
           value={input}
           maxLength={STEPFUN_MAX_INPUT_LENGTH} // StepFun限制1000字
           onChange={e => setInput(e.target.value)}
@@ -142,7 +147,7 @@ export default function Content({ t }: { t: Tran }) {
               icon={faCircleDown}
               className="w-8 h-8 text-blue-600 hover:text-blue-500 cursor-pointer"
               onClick={handleDownload}
-              title="下载音频"
+              title={t['download']}
             />
           </div>
           {/* 播放/暂停 */}
@@ -153,7 +158,7 @@ export default function Content({ t }: { t: Tran }) {
               icon={isPlaying ? faCirclePause : faCirclePlay}
               className="w-8 h-8 text-blue-600 hover:text-blue-500 cursor-pointer"
               onClick={isPlaying ? pause : play}
-              title={isPlaying ? '暂停' : '播放'}
+              title={isPlaying ? t['pause'] : t['play']}
             />
           )}
         </div>
@@ -163,7 +168,7 @@ export default function Content({ t }: { t: Tran }) {
       <div className="md:flex-1 flex flex-col gap-4">
         {/* 音频格式选择 */}
         <div>
-          <h3 className="font-bold mb-2">音频格式</h3>
+          <h3 className="font-bold mb-2">{t['audio-format']}</h3>
           <div className="flex flex-wrap gap-2 pb-3">
             {MIME_TYPES.map(item => (
               <Button
@@ -179,20 +184,20 @@ export default function Content({ t }: { t: Tran }) {
 
         {/* 性别选择 */}
         <div>
-          <h3 className="font-bold mb-2">选择性别</h3>
+          <h3 className="font-bold mb-2">{t['select-gender']}</h3>
           <div className="flex flex-wrap gap-2 pb-3">
             <Button color={gender === 'male' ? 'primary' : 'default'} onClick={() => setGender('male')}>
-              男声
+              {t['genders']['male']}
             </Button>
             <Button color={gender === 'female' ? 'primary' : 'default'} onClick={() => setGender('female')}>
-              女声
+              {t['genders']['female']}
             </Button>
           </div>
         </div>
 
         {/* 音色选择 */}
         <div>
-          <h3 className="font-bold mb-2">选择音色</h3>
+          <h3 className="font-bold mb-2">{t['select-voice']}</h3>
           <div className="flex flex-wrap gap-2 pb-3">
             {(gender === 'male' ? maleVoices : femaleVoices).map(item => (
               <VoiceCard
@@ -211,7 +216,7 @@ export default function Content({ t }: { t: Tran }) {
 
         {/* 语速调整 */}
         <div>
-          <h3 className="font-bold mb-2">语速（0.50 ~ 2.00）</h3>
+          <h3 className="font-bold mb-2">{t['rate']}（0.50 ~ 2.00）</h3>
           <Slider
             step={0.01}
             minValue={0.5}
@@ -220,14 +225,16 @@ export default function Content({ t }: { t: Tran }) {
             onChange={(val: number | number[]) => {
               if (typeof val === 'number') setSpeed(parseFloat(val.toFixed(2)))
             }}
-            aria-label="语速"
+            aria-label={t['rate']}
           />
-          <p className="mt-1">当前：{speed.toFixed(2)}</p>
+          <p className="mt-1">
+            {t['current']}：{speed.toFixed(2)}
+          </p>
         </div>
 
         {/* 音量调整 */}
         <div>
-          <h3 className="font-bold mb-2">音量（0.10 ~ 2.00）</h3>
+          <h3 className="font-bold mb-2">{t['volume']}（0.10 ~ 2.00）</h3>
           <Slider
             step={0.01}
             minValue={0.1}
@@ -236,9 +243,11 @@ export default function Content({ t }: { t: Tran }) {
             onChange={(val: number | number[]) => {
               if (typeof val === 'number') setVolume(parseFloat(val.toFixed(2)))
             }}
-            aria-label="音量"
+            aria-label="{t['volume']}"
           />
-          <p className="mt-1">当前：{volume.toFixed(2)}</p>
+          <p className="mt-1">
+            {t['current']}：{volume.toFixed(2)}
+          </p>
         </div>
       </div>
     </div>

@@ -1,0 +1,48 @@
+{
+  "DEFAULT_TEXT": "「将進酒」 李白\nご覧にならぬか、黄河の水が天より降りてきて、\n海に流れ込み、二度と戻らぬ様を。\nご覧にならぬか、高堂の明鏡が白髪を嘆き、\n朝は青々たる黒髪が、夕べには雪のように白くなる様を。",
+  "input-text": "テキストを入力してください",
+  "audio-format": "音声フォーマット",
+  "select-gender": "性別を選択",
+  "select-voice": "音声を選択",
+  "rate": "話速",
+  "volume": "音量",
+  "current": "現在",
+  "genders": {
+    "male": "男性",
+    "female": "女性"
+  },
+  "voices": {
+    "male": {
+      "cixingnansheng": "磁性男性声",
+      "zhengpaiqingnian": "正派青年",
+      "yuanqinansheng": "元気な男性声",
+      "qingniandaxuesheng": "若い大学生",
+      "boyinnansheng": "アナウンス男性声",
+      "ruyananshi": "上品な男性",
+      "shenchennanyin": "深い男性声"
+    },
+    "female": {
+      "qinqienvsheng": "親しみやすい女性声",
+      "wenrounvsheng": "優しい女性声",
+      "jilingshaonv": "利口な少女",
+      "yuanqishaonv": "元気な少女",
+      "ruanmengnvsheng": "柔らかくかわいい女性声",
+      "youyanvsheng": "上品な女性声",
+      "lengyanyujie": "クールな大人の女性",
+      "shuangkuaijiejie": "爽やかな姉",
+      "wenjingxuejie": "静かな先輩",
+      "linjiajiejie": "隣の姉",
+      "linjiameimei": "隣の妹",
+      "zhixingjiejie": "知的な姉"
+    }
+  },
+  "fetch-audio-error": "音声取得中にエラーが発生しました。",
+  "no-audio-returned": "バックエンドから音声データが返されませんでした。",
+  "request-failed": "リクエストに失敗しました。",
+  "file-name-prefix": "StepFun-TTS",
+  "play": "再生",
+  "pause": "一時停止",
+  "download": "ダウンロード",
+  "download-fail": "先に再生してからダウンロードしてください。",
+  "download-success": "ダウンロードに成功しました。"
+}
