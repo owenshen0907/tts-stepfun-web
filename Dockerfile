@@ -3,28 +3,41 @@ FROM node:18-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# 设置 Yarn 使用 NPM 注册表
-RUN yarn config set registry https://registry.npmjs.org/
+# 安装必要的依赖
+RUN apk add --no-cache libc6-compat
+
+# 配置 Yarn 和 NPM 使用国内的 cnpm 镜像源
+RUN yarn config set registry https://registry.cnpmjs.org/ && \
+    npm config set registry https://registry.cnpmjs.org/
 
 # 复制依赖定义文件
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-# 使用重试逻辑安装依赖
+# 安装依赖项，并实现重试逻辑
 RUN \
   if [ -f yarn.lock ]; then \
     n=0; \
-    until [ $n -ge 5 ]; do yarn --frozen-lockfile && break || n=$((n+1)) && echo "Retrying... ($n)"; \
+    until [ $n -ge 5 ]; do \
+      yarn --frozen-lockfile && break || n=$((n+1)) && echo "Yarn install 失败，正在重试... ($n)"; \
     done; \
-    if [ $n -ge 5 ]; then echo "Yarn install failed after 5 attempts"; exit 1; fi \
+    if [ $n -ge 5 ]; then echo "Yarn install 在 5 次尝试后失败"; exit 1; fi \
   elif [ -f package-lock.json ]; then \
-    npm ci; \
+    n=0; \
+    until [ $n -ge 5 ]; do \
+      npm ci && break || n=$((n+1)) && echo "NPM install 失败，正在重试... ($n)"; \
+    done; \
+    if [ $n -ge 5 ]; then echo "NPM install 在 5 次尝试后失败"; exit 1; fi \
   elif [ -f pnpm-lock.yaml ]; then \
-    corepack enable pnpm && pnpm i --frozen-lockfile; \
+    corepack enable pnpm && \
+    n=0; \
+    until [ $n -ge 5 ]; do \
+      pnpm install --frozen-lockfile && break || n=$((n+1)) && echo "PNPM install 失败，正在重试... ($n)"; \
+    done; \
+    if [ $n -ge 5 ]; then echo "PNPM install 在 5 次尝试后失败"; exit 1; fi \
   else \
-    echo "Lockfile not found." && exit 1; \
+    echo "未找到锁文件。" && exit 1; \
   fi
 
 # Rebuild the source code only when needed
