@@ -6,15 +6,26 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn config set registry https://registry.npmmirror.com && yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm config set registry https://registry.npmmirror.com && npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# 设置 Yarn 使用 NPM 注册表
+RUN yarn config set registry https://registry.npmjs.org/
 
+# 复制依赖定义文件
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
+# 使用重试逻辑安装依赖
+RUN \
+  if [ -f yarn.lock ]; then \
+    n=0; \
+    until [ $n -ge 5 ]; do yarn --frozen-lockfile && break || n=$((n+1)) && echo "Retrying... ($n)"; \
+    done; \
+    if [ $n -ge 5 ]; then echo "Yarn install failed after 5 attempts"; exit 1; fi \
+  elif [ -f package-lock.json ]; then \
+    npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then \
+    corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else \
+    echo "Lockfile not found." && exit 1; \
+  fi
 
 # Rebuild the source code only when needed
 FROM base AS builder
