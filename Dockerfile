@@ -48,6 +48,10 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./package.json
 
+# 创建缓存和运行目录，并设置权限
+RUN mkdir -p /app/.next/cache /app/.next/server && \
+    chown -R 1001:1001 /app/.next
+
 # 添加用户和组以提高安全性
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
