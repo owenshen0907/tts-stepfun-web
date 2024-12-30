@@ -29,9 +29,11 @@ COPY . .
 
 # 运行构建命令
 RUN \
-  if [ -f yarn.lock ]; then yarn run build; \
-  elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  if [ -f yarn.lock ]; then \
+    yarn config set registry https://registry.npmmirror.com && \
+    yarn install --verbose --network-timeout 100000 --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm install --verbose; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --verbose; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
