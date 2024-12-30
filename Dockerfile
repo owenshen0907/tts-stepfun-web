@@ -17,7 +17,7 @@ ENV YARN_TIMEOUT=600000
 # 安装依赖项
 RUN \
   if [ -f yarn.lock ]; then \
-    yarn config set registry https://registry.npmmirror.com && \  # 使用淘宝镜像源
+    yarn config set registry https://registry.npmmirror.com && \
     yarn install --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm install; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
