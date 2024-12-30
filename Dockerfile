@@ -1,56 +1,27 @@
-FROM node:18-alpine AS base
+# 第一阶段：安装依赖并构建应用
+FROM node:18-alpine AS builder
 
-# Install dependencies only when needed
-FROM base AS deps
-
+# 设置工作目录
 WORKDIR /app
 
-# 安装必要的依赖
+# 安装必要的系统依赖
 RUN apk add --no-cache libc6-compat
-
-# 配置 Yarn 和 NPM 使用国内的 cnpm 镜像源
-RUN yarn config set registry https://registry.cnpmjs.org/ && \
-    npm config set registry https://registry.cnpmjs.org/
 
 # 复制依赖定义文件
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-# 安装依赖项，并实现重试逻辑
+# 安装依赖项
 RUN \
-  if [ -f yarn.lock ]; then \
-    n=0; \
-    until [ $n -ge 5 ]; do \
-      yarn --frozen-lockfile && break || n=$((n+1)) && echo "Yarn install 失败，正在重试... ($n)"; \
-    done; \
-    if [ $n -ge 5 ]; then echo "Yarn install 在 5 次尝试后失败"; exit 1; fi \
-  elif [ -f package-lock.json ]; then \
-    n=0; \
-    until [ $n -ge 5 ]; do \
-      npm ci && break || n=$((n+1)) && echo "NPM install 失败，正在重试... ($n)"; \
-    done; \
-    if [ $n -ge 5 ]; then echo "NPM install 在 5 次尝试后失败"; exit 1; fi \
-  elif [ -f pnpm-lock.yaml ]; then \
-    corepack enable pnpm && \
-    n=0; \
-    until [ $n -ge 5 ]; do \
-      pnpm install --frozen-lockfile && break || n=$((n+1)) && echo "PNPM install 失败，正在重试... ($n)"; \
-    done; \
-    if [ $n -ge 5 ]; then echo "PNPM install 在 5 次尝试后失败"; exit 1; fi \
-  else \
-    echo "未找到锁文件。" && exit 1; \
+  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm install; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
+  else echo "Lockfile not found." && exit 1; \
   fi
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# 复制项目源代码到构建阶段
 COPY . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
+# 运行构建命令
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
@@ -58,34 +29,36 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Production image, copy all the files and run next
-FROM base AS runner
+# 可选调试步骤：验证 'next' 是否存在
+# RUN ls -la node_modules/.bin
+
+# 第二阶段：创建最终运行时镜像
+FROM node:18-alpine AS runner
+
 WORKDIR /app
 
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+# 复制已安装的依赖项和构建产物
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/package.json ./package.json
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# 添加用户和组以提高安全性
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
 
 USER nextjs
 
-EXPOSE 3600
+# 声明构建参数（仅保留需要的）
+ARG STEPFUN_API_KEY
+ARG NODE_ENV
 
-ENV PORT 3600
+# 设置运行时环境变量
+ENV STEPFUN_API_KEY=${STEPFUN_API_KEY}
+ENV STEPFUN_API_URL=https://api.stepfun.com/v1
+ENV NODE_ENV=${NODE_ENV}
 
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD HOSTNAME="0.0.0.0" node server.js
+# 暴露端口
+EXPOSE 3000
+
+# 启动应用程序，使用 'yarn start' 或 'npm start'
+CMD ["yarn", "start"]
