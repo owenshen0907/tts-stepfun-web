@@ -77,7 +77,10 @@ export default function VoiceCard({ voiceItem, selectedVoice, onSelect }: VoiceC
       {/* 音色按钮 */}
       <Button
         color={voiceItem.value === selectedVoice ? 'primary' : 'default'}
-        onClick={() => onSelect(voiceItem.value)}
+        onPress={() => {
+          console.log('Selecting voice:', voiceItem.value)
+          onSelect(voiceItem.value)
+        }}
       >
         {voiceItem.label}
       </Button>
@@ -93,50 +96,53 @@ export default function VoiceCard({ voiceItem, selectedVoice, onSelect }: VoiceC
             justify-center
             bg-opacity-20
             rounded
-            z-20
+            z-10
+            pointer-events-none
           "
         >
-          {isPlaying ? (
-            <Button
-              isIconOnly
-              size="sm"
-              onPress={handlePause}
-              className="
-                rounded-full
-                bg-gradient-to-r
-                from-pink-400
-                to-pink-600
-                text-white
-                shadow-md
-                hover:shadow-lg
-                transition
-                duration-300
-                ease-in-out
-              "
-            >
-              <FontAwesomeIcon icon={faPause} />
-            </Button>
-          ) : (
-            <Button
-              isIconOnly
-              size="sm"
-              onPress={handlePlay}
-              className="
-                rounded-full
-                bg-gradient-to-r
-                from-pink-400
-                to-pink-600
-                text-white
-                shadow-md
-                hover:shadow-lg
-                transition
-                duration-300
-                ease-in-out
-              "
-            >
-              <FontAwesomeIcon icon={faPlay} />
-            </Button>
-          )}
+          <div className="pointer-events-auto">
+            {isPlaying ? (
+              <Button
+                isIconOnly
+                size="sm"
+                onPress={handlePause}
+                className="
+                  rounded-full
+                  bg-gradient-to-r
+                  from-pink-400
+                  to-pink-600
+                  text-white
+                  shadow-md
+                  hover:shadow-lg
+                  transition
+                  duration-300
+                  ease-in-out
+                "
+              >
+                <FontAwesomeIcon icon={faPause} />
+              </Button>
+            ) : (
+              <Button
+                isIconOnly
+                size="sm"
+                onPress={handlePlay}
+                className="
+                  rounded-full
+                  bg-gradient-to-r
+                  from-pink-400
+                  to-pink-600
+                  text-white
+                  shadow-md
+                  hover:shadow-lg
+                  transition
+                  duration-300
+                  ease-in-out
+                "
+              >
+                <FontAwesomeIcon icon={faPlay} />
+              </Button>
+            )}
+          </div>
         </div>
       )}
     </div>

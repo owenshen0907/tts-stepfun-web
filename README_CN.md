@@ -43,7 +43,7 @@ STEPFUN_API_URL=https://api.stepfun.com/v1
 #创建镜像
 docker build -t tts-stepfun-web --build-arg STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY --build-arg NODE_ENV=production .
 #创建容器
-docker run -d -p 3000:3600 --name tts-stepfun-web-container \
+docker run -d -p 3600:3000 --name tts-stepfun-web-container \
   tts-stepfun-web
 #启动后访问地址：http://localhost:3600/
 ```
