@@ -18,7 +18,7 @@ ENV YARN_TIMEOUT=600000
 RUN \
   if [ -f yarn.lock ]; then \
     yarn config set registry https://registry.npmmirror.com && \
-    yarn install --frozen-lockfile; \
+    yarn install --network-timeout 100000 --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm install; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
   else echo "Lockfile not found." && exit 1; \
@@ -29,11 +29,9 @@ COPY . .
 
 # 运行构建命令
 RUN \
-  if [ -f yarn.lock ]; then \
-    yarn config set registry https://registry.npmmirror.com && \
-    yarn install --verbose --network-timeout 100000 --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm install --verbose; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --verbose; \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
