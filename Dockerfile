@@ -11,8 +11,14 @@ RUN apk add --no-cache libc6-compat
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
 # 安装依赖项
+# 设置超时时间
+ENV YARN_TIMEOUT=600000
+
+# 安装依赖项
 RUN \
-  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  if [ -f yarn.lock ]; then \
+    yarn config set registry https://registry.npmmirror.com && \  # 使用淘宝镜像源
+    yarn install --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm install; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install; \
   else echo "Lockfile not found." && exit 1; \
