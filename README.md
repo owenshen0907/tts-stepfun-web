@@ -44,8 +44,9 @@ STEPFUN_API_URL=https://api.stepfun.com/v1
 ## docker Deployment
 ```bash
 ##
-docker build -t tts-stepfun-web .
-docker run -d -p 3600:3600 --name tts-stepfun-web tts-stepfun-web
+docker build -t tts-stepfun-web --build-arg STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY --build-arg NODE_ENV=production .
+docker run -d -p 3000:3600 --name tts-stepfun-web-container \
+  tts-stepfun-web
 ```
 
 
