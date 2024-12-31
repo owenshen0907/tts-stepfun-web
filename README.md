@@ -13,7 +13,7 @@
 
 This project is designed for users who want to fully experience the features of StepFun TTS with minimal setup efforts.
 
-**Online Demo**: [https://tts.xjiojio.cn](https://tts.xjiojio.cn)
+**Online Demo**: [http://tts.xjiojio.cn](http://tts.xjiojio.cn)
 
 ---
 

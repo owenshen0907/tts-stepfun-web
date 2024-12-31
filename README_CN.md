@@ -13,7 +13,7 @@ Owen`s Cats TTS Web 是一个 StepFun 文本转语音（TTS）网页应用。可
 
 该项目适合那些希望在体验 StepFun TTS 全功能的同时最小化设置工作的用户。
 
-在线演示： [https://tts.xjiojio.cn](https://tts.xjiojio.cn)
+在线演示： [http://tts.xjiojio.cn](http://tts.xjiojio.cn)
 
 ## 入门指南
 
