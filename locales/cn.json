@@ -1,4 +1,9 @@
 {
+  "side-nav": {
+    "generate-voice": "生成语音",
+    "voice-clone": "声音克隆",
+    "usage-case": "实用案例"
+  },
   "DEFAULT_TEXT": "《将进酒》：李白 \n君不见，黄河之水天上来，奔流到海不复回。\n君不见，高堂明镜悲白发，朝如青丝暮成雪。",
   "input-text": "请输入文本",
   "audio-format": "音频格式",

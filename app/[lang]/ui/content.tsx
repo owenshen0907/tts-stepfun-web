@@ -7,9 +7,9 @@ import { Button } from '@nextui-org/button'
 import { Textarea } from '@nextui-org/input'
 import { Slider } from '@nextui-org/slider'
 import { Spinner } from '@nextui-org/spinner'
-import { Toaster, toast } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import VoiceCard from '@/app/[lang]/ui/components/VoiceCard'
-import { STEPFUN_VOICES, STEPFUN_MAX_INPUT_LENGTH, DEFAULT_TEXT, MIME_TYPES } from '@/app/lib/constants'
+import { DEFAULT_TEXT, MIME_TYPES, STEPFUN_MAX_INPUT_LENGTH, STEPFUN_VOICES } from '@/app/lib/constants'
 import { base64AudioToBlobUrl, getFormatDate, saveAs } from '@/app/lib/tools'
 import { Tran } from '@/app/lib/types'
 
@@ -46,7 +46,7 @@ export default function Content({ t }: { t: Tran }) {
 
   // 点“播放”时调用后端 /api/audio
   const fetchAudio = async () => {
-    const res = await fetch('/api/audio', {
+    const res = await fetch('/api/audio/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

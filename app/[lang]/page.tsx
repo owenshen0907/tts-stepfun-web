@@ -1,16 +1,8 @@
 // app/[lang]/page.tsx
-import Content from './ui/content'
-import Nav from './ui/nav'
-import { getLocale } from '@/app/lib/i18n/get-locale'
+import { redirect } from 'next/navigation'
 import type { Locale } from '@/app/lib/i18n/i18n-config'
 
-export default async function Home({ params: { lang } }: { params: { lang: Locale } }) {
-  const t = await getLocale(lang)
-
-  return (
-    <main className="flex w-full min-h-screen flex-col">
-      <Nav t={t} />
-      <Content t={t} />
-    </main>
-  )
+export default async function LangHome({ params: { lang } }: { params: { lang: Locale } }) {
+  // 例如：让它直接重定向到 /[lang]/generate-voice
+  redirect(`/${lang}/generate-voice`)
 }

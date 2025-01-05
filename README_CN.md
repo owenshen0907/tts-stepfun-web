@@ -86,3 +86,44 @@ PORT=3600 yarn dev
 - `docs` 文档和注释相关
 - `chore` 更新依赖/修改脚手架配置等琐事
 - `ci` 持续集成相关
+```markdown
+tts-stepfun-web/
+├── app/                         
+│   ├── [lang]/                   # 多语言动态路由
+│   │   ├── ui/                   # 界面相关文件
+│   │   │   ├── nav.tsx           # 导航栏组件
+│   │   │   ├── components/       # 可复用组件
+│   │   │   │   ├── IconButton.tsx            # 图标按钮
+│   │   │   │   ├── ThemeToggle.tsx           # 主题切换
+│   │   │   │   ├── MicButton.tsx             # 麦克风按钮，打开音色克隆页面
+│   │   │   │   ├── voice-clone/              # 音色克隆功能相关组件
+│   │   │   │   │   ├── VoiceCloneModal.tsx   # 音色克隆主页面
+│   │   │   │   │   ├── AudioPlayer.tsx       # 音频播放器
+│   │   │   │   │   ├── Recorder.tsx          # 录音功能
+│   │   │   │   │   ├── FileUploader.tsx      # 文件上传
+│   │   │   │   │   ├── TextOutput.tsx        # 文本输出框
+│   │   │   │   │   ├── ToneGeneratorButton.tsx # 生成音色按钮
+│   │   │   │   ├── VoiceCard.tsx             # 音色选择组件
+│   │   ├── generate-voice/                   # 生产音频
+│   │   │   ├── page.tsx                      # 
+│   │   ├── voice-clone/                      # 音色克隆
+│   │   ├── usage-case/                       # 案例
+│   │   ├── layout.tsx                        # 定义页面的整体布局结构
+│   │   ├── overlay-scrollbar.tsx             #
+│   │   ├── page.tsx                          # 
+│   │   ├── providers.tsx                     #
+│   ├── api/                    # 后端 API 逻辑
+│   │   ├── audio/              # 音频相关 API
+│   │   │   ├── route.ts                 # 现有音频生成逻辑
+│   │   │   ├── cloneTone.ts             # 音色克隆接口
+│   ├── lib/                    # 工具类和类型定义
+│   │   ├── constants.ts        # 常量定义
+│   │   ├── types.ts            # 类型定义
+│   │   ├── i18n/               # 国际化配置
+├── public/                     # 静态资源文件夹
+│   ├── audio/                  # 示例音频文件
+├── styles/                     # 样式文件夹（如果有全局样式需求）
+├── next.config.js              # Next.js 配置文件
+├── package.json                # 项目依赖定义
+└── README.md                   # 项目说明文档
+```

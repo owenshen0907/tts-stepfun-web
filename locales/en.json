@@ -1,4 +1,9 @@
 {
+  "side-nav": {
+    "generate-voice": "Generate Voice",
+    "voice-clone": "Voice Clone",
+    "usage-case": "Use Cases"
+  },
   "DEFAULT_TEXT": "“Song of the Immortal Drink” by Li Bai\nDo you not see, the waters of the Yellow River, descending from the sky,\nRushing to the ocean, never to return?\nDo you not see, the bright mirror in the high hall reflecting sorrowful white hair,\nOnce black as silk in the morning, now turned snowy by evening?",
   "input-text": "Enter text",
   "audio-format": "Audio Format",
