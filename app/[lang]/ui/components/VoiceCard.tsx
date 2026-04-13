@@ -86,7 +86,7 @@ export default function VoiceCard({ voiceItem, selectedVoice, onSelect }: VoiceC
       </Button>
 
       {/* 小播放按钮：绝对定位在上方 */}
-      {isHovered && (
+      {isHovered && voiceItem.previewUrl && (
         <div
           className="
             absolute

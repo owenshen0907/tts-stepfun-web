@@ -8,5 +8,5 @@ export default async function GenerateVoicePage({ params: { lang } }: { params: 
   const t = await getLocale(lang)
 
   // 在服务器端渲染 Content
-  return <Content t={t} />
+  return <Content t={t} lang={lang} />
 }

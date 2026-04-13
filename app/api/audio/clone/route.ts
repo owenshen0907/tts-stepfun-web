@@ -1,7 +1,7 @@
 // app/api/audio/clone/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'
-import { STEPFUN_API_KEY, STEPFUN_API_URL } from '@/app/lib/constants'
+import { STEPFUN_API_KEY, STEPFUN_API_URL, STEPFUN_TTS_MODEL } from '@/app/lib/constants'
 
 const STEP_VOICES_URL = `${STEPFUN_API_URL}/audio/voices`
 
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // 2. 构造要请求给 StepFun 的 body
     const requestBody = {
       file_id,
-      model: model || 'step-tts-mini',
+      model: model || STEPFUN_TTS_MODEL,
       text, // 用于克隆时的文本
       sample_text, // 试听文本
     }

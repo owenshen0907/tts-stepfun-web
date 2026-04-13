@@ -8,6 +8,7 @@ import FileUploader from '@/app/[lang]/ui/components/voice-clone/FileUploader'
 import Recorder from '@/app/[lang]/ui/components/voice-clone/Recorder'
 import TextOutput from '@/app/[lang]/ui/components/voice-clone/TextOutput'
 import ToneGeneratorButton from '@/app/[lang]/ui/components/voice-clone/ToneGeneratorButton'
+import { STEPFUN_TTS_MODEL } from '@/app/lib/constants'
 import type { Locale } from '@/app/lib/i18n/i18n-config'
 
 interface VoiceCloneClientProps {
@@ -15,7 +16,7 @@ interface VoiceCloneClientProps {
   lang: Locale
 }
 
-export default function VoiceCloneClient({ t, lang }: VoiceCloneClientProps) {
+export default function VoiceCloneClient(_props: VoiceCloneClientProps) {
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
   const [textInfo, setTextInfo] = useState<string>('')
   const [sampleText, setSampleText] = useState<string>('') // 原"试听文本"，现改成"试听文档"
@@ -127,7 +128,7 @@ export default function VoiceCloneClient({ t, lang }: VoiceCloneClientProps) {
       // 3) 调用 /api/audio/clone
       const cloneBody = {
         file_id: fileId,
-        model: 'step-tts-mini',
+        model: STEPFUN_TTS_MODEL,
         text: textInfo,
         sample_text: sampleText,
       }
