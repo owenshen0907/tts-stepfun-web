@@ -16,7 +16,8 @@ interface VoiceCloneClientProps {
   lang: Locale
 }
 
-export default function VoiceCloneClient(_props: VoiceCloneClientProps) {
+export default function VoiceCloneClient(props: VoiceCloneClientProps) {
+  void props
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
   const [textInfo, setTextInfo] = useState<string>('')
   const [sampleText, setSampleText] = useState<string>('') // 原"试听文本"，现改成"试听文档"

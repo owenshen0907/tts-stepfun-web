@@ -1,5 +1,4 @@
 // app/lib/tools.ts
-import { Config, GenderItem, ListItem } from './types'
 
 export function saveAs(blob: Blob, name: string) {
   const a = document.createElement('a')
@@ -32,13 +31,6 @@ export function base64AudioToBlobUrl(base64: string, mime_type: string): string 
   const byteArray = new Uint8Array(byteNumbers)
   const blob = new Blob([byteArray], { type: mime_type })
   return URL.createObjectURL(blob)
-}
-
-interface VoiceName {
-  label: string
-  value: string
-  hasStyle: boolean
-  hasRole: boolean
 }
 
 // export function processVoiceName(voiceNames: VoiceName[], gender: string, lang: string) {

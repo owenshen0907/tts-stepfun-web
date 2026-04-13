@@ -267,12 +267,4 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioBlob }) => {
   )
 }
 
-// 辅助函数：格式化时间 (秒) 为 mm:ss
-const formatTime = (time: number): string => {
-  const minutes = Math.floor(time / 60)
-  const seconds = Math.floor(time % 60)
-  const paddedSeconds = seconds < 10 ? `0${seconds}` : seconds
-  return `${minutes}:${paddedSeconds}`
-}
-
 export default AudioPlayer
