@@ -4,10 +4,11 @@ import { FiUpload } from 'react-icons/fi' // 需安装 react-icons 或你使用�
 
 interface FileUploaderProps {
   accept?: string
+  label?: string
   onFileUpload: (file: File) => void
 }
 
-const FileUploader: React.FC<FileUploaderProps> = ({ accept, onFileUpload }) => {
+const FileUploader: React.FC<FileUploaderProps> = ({ accept, label = 'Upload Audio', onFileUpload }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return
     const file = e.target.files[0]
@@ -21,7 +22,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ accept, onFileUpload }) => 
                    cursor-pointer flex items-center justify-center space-x-2"
       >
         <FiUpload size={20} />
-        <span>上传音频</span>
+        <span>{label}</span>
         <input type="file" accept={accept} className="hidden" onChange={handleChange} />
       </label>
     </div>

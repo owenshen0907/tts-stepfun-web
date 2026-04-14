@@ -3,10 +3,21 @@ import Content from '@/app/[lang]/ui/content'
 import { getLocale } from '@/app/lib/i18n/get-locale'
 import type { Locale } from '@/app/lib/i18n/i18n-config'
 
-export default async function GenerateVoicePage({ params: { lang } }: { params: { lang: Locale } }) {
-  // 获取翻译
+export default async function GenerateVoicePage({
+  params: { lang },
+  searchParams,
+}: {
+  params: { lang: Locale }
+  searchParams?: { from?: string; voice?: string }
+}) {
   const t = await getLocale(lang)
 
-  // 在服务器端渲染 Content
-  return <Content t={t} lang={lang} />
+  return (
+    <Content
+      t={t}
+      lang={lang}
+      initialVoice={typeof searchParams?.voice === 'string' ? searchParams.voice : undefined}
+      initialSource={typeof searchParams?.from === 'string' ? searchParams.from : undefined}
+    />
+  )
 }

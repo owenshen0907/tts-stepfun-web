@@ -32,7 +32,7 @@ export default async function RootLayout({
   const t = await getLocale(lang)
 
   // 2. 处理 <html lang="...">
-  const langAttr = lang === 'cn' ? 'zh-CN' : 'en'
+  const langAttr = lang === 'cn' ? 'zh-CN' : lang === 'jp' ? 'ja' : 'en'
 
   return (
     <html lang={langAttr} data-overlayscrollbars-initialize>

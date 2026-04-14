@@ -3,11 +3,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { STEPFUN_API_KEY, STEPFUN_API_URL } from '@/app/lib/constants'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   try {
-    // 1. 解析查询参数 file_id
-    const { searchParams } = new URL(req.url)
-    const fileId = searchParams.get('file_id')
+    const fileId = req.nextUrl.searchParams.get('file_id')
 
     if (!fileId) {
       return NextResponse.json({ error: 'Missing file_id' }, { status: 400 })

@@ -1,6 +1,6 @@
 // app/lib/i18n
 export const i18n = {
-  defaultLocale: 'en',
+  defaultLocale: 'jp',
   locales: ['en', 'cn', 'jp'],
 } as const
 

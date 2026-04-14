@@ -1,6 +1,6 @@
 # TTS stepfun Web
 
-[English](./README.md) / 简体中文
+[日本語](./README.md) / [English](./README_EN.md) / 简体中文
 
 Owen`s Cats TTS Web 是一个 StepFun 文本转语音（TTS）网页应用。可以在本地运行或使用你的 StepFun Key 一键部署。
 
@@ -34,7 +34,7 @@ Owen`s Cats TTS Web 是一个 StepFun 文本转语音（TTS）网页应用。可
 ```bash
 # Stepfun API Key and URL
 STEPFUN_API_KEY=YOUR_STEPFUN_APIKEY
-STEPFUN_API_URL=https://api.stepfun.com/v1
+STEPFUN_API_URL=https://api.stepfun.ai/v1
 ```
 
 ## docker部署
@@ -72,7 +72,7 @@ yarn
 PORT=3600 yarn dev
 ```
 
-使用浏览器打开 [http://localhost:3001](http://localhost:3600/) 查看结果。
+使用浏览器打开 [http://127.0.0.1:3600/jp/generate-voice](http://127.0.0.1:3600/jp/generate-voice) 查看结果，默认落地语言为日文。
 
 ## Git 提交规范参考
 

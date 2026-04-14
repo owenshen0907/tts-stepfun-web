@@ -59,7 +59,13 @@ export function middleware(request: NextRequest) {
   if (pathnameIsMissingLocale) {
     const cookies = request.headers.get('cookie') || ''
     const cookieLang = getCookie('user-language', cookies)
-    const cookieLocale = cookieLang && (cookieLang.startsWith('zh') ? 'cn' : 'en')
+    const cookieLocale =
+      cookieLang &&
+      (cookieLang.startsWith('zh')
+        ? 'cn'
+        : cookieLang.startsWith('ja') || cookieLang.startsWith('jp')
+          ? 'jp'
+          : 'en')
     const locale = cookieLocale || getLocale(request)
     const redirectUrl = new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
 

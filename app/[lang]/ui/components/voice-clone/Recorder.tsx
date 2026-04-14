@@ -3,9 +3,19 @@ import { WaveFile } from 'wavefile'
 
 interface RecorderProps {
   onRecordingComplete?: (blob: Blob, textInfo?: string) => void
+  onError?: (message: string) => void
+  startLabel?: string
+  stopLabel?: string
+  unsupportedMessage?: string
 }
 
-const Recorder: React.FC<RecorderProps> = ({ onRecordingComplete }) => {
+const Recorder: React.FC<RecorderProps> = ({
+  onError,
+  onRecordingComplete,
+  startLabel = 'Start Recording',
+  stopLabel = 'Stop Recording',
+  unsupportedMessage = 'Your browser does not support a usable recording format.',
+}) => {
   const [recording, setRecording] = useState(false)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
@@ -61,7 +71,7 @@ const Recorder: React.FC<RecorderProps> = ({ onRecordingComplete }) => {
 
       const mimeType = getSupportedMimeType()
       if (!mimeType) {
-        alert('当前浏览器不支持任何常见录音格式，请尝试更新或更换浏览器。')
+        onError?.(unsupportedMessage)
         return
       }
 
@@ -97,6 +107,7 @@ const Recorder: React.FC<RecorderProps> = ({ onRecordingComplete }) => {
       setRecording(true)
     } catch (error) {
       console.error('录音失败:', error)
+      onError?.('Failed to start recording.')
     }
   }
 
@@ -113,7 +124,7 @@ const Recorder: React.FC<RecorderProps> = ({ onRecordingComplete }) => {
         onClick={recording ? stopRecording : startRecording}
         className="w-full h-12 px-4 py-2 bg-blue-500 text-white rounded"
       >
-        {recording ? '停止录音' : '开始录音'}
+        {recording ? stopLabel : startLabel}
       </button>
     </div>
   )

@@ -8,6 +8,7 @@ import {
   STEPFUN_MAX_INPUT_LENGTH,
   STEPFUN_TTS_MODEL,
 } from '@/app/lib/constants'
+import { extractStepFunError } from '@/app/lib/stepfun-error'
 
 export async function POST(req: NextRequest) {
   try {
@@ -60,7 +61,8 @@ export async function POST(req: NextRequest) {
     // 如果返回非200(OK)，读取text看看错误内容
     if (!res.ok) {
       const errorText = await res.text()
-      return NextResponse.json({ error: `StepFun TTS Error (${res.status}): ${errorText}` }, { status: res.status })
+      const parsedError = extractStepFunError(errorText, `StepFun TTS request failed (${res.status}).`)
+      return NextResponse.json({ error: parsedError.message, code: parsedError.code }, { status: res.status })
     }
 
     // 4. 用 arrayBuffer() 读取**二进制音频**
